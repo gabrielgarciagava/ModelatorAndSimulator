@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    nServidoresLocais = nServidoresRemotos = 0;
+    tempoDeSimulacao = 10000;
 }
 
 MainWindow::~MainWindow()
@@ -19,7 +21,12 @@ void MainWindow::on_botao_inicio_simulacao_clicked()
     ui->botao_pausar_simulacao->setEnabled(true);
     ui->botao_inicio_simulacao->setEnabled(false);
 
-    //TODO chamar metodo que inicia a simulaçao
+    if(sim == NULL)
+        sim = new Simulador(Time(tempoDeSimulacao),nServidoresLocais,nServidoresRemotos);
+
+    cout << "Simulador criado" << endl;
+
+    sim->simular();
 }
 
 void MainWindow::on_botao_parar_simulacao_clicked()
@@ -30,7 +37,8 @@ void MainWindow::on_botao_parar_simulacao_clicked()
     ui->botao_avancar_simulacao->setEnabled(false);
     ui->botao_pausar_simulacao->setText("Travar");
 
-    //TODO chamar metodo que encerra a simulação
+    sim->stop();
+    delete sim;
 }
 
 void MainWindow::on_botao_pausar_simulacao_clicked()
@@ -38,17 +46,24 @@ void MainWindow::on_botao_pausar_simulacao_clicked()
     if(ui->botao_pausar_simulacao->text().toStdString() == "Travar" ){
         ui->botao_pausar_simulacao->setText("Continuar");
         ui->botao_avancar_simulacao->setEnabled(true);
-        //TODO travar a simulacao
+        sim->stop();
 
     }else{  //Texto atual = Continuar
         ui->botao_pausar_simulacao->setText("Travar");
         ui->botao_avancar_simulacao->setEnabled(false);
-        //TODO continuar a simulacao
+        sim->simular();
 
     }
 }
 
 void MainWindow::on_botao_avancar_simulacao_clicked()
 {
-    //TODO avancar o numero de eventos da barrinha
+    sim->step();
+}
+
+void MainWindow::on_tamanho_passo_valueChanged(int value)
+{
+    stringstream ss;
+    ss << value;
+    ui->tamanho_passo_tela->setText(QString(ss.str().c_str()));
 }

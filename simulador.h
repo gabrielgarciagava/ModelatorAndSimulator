@@ -5,6 +5,7 @@
 #include "evento.h"
 #include "queue"
 #include "central.h"
+#include <unistd.h>
 
 class Simulador
 {
@@ -13,6 +14,7 @@ private:
     Central remoto;
     static volatile bool running;
     priority_queue<situacao> fila_de_eventos;
+    int stepsPerSecond;
 
 public:
     Simulador(Time, int, int);
@@ -20,6 +22,7 @@ public:
     void simular();
     bool step();
     static void stop();
+    void set_stepsPerSeond(int s);
 };
 
 #endif // SIMULADOR_H
