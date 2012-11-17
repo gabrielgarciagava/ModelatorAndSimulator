@@ -1,21 +1,39 @@
 #ifndef ESTATISTICAS_H
 #define ESTATISTICAS_H
 
+#include "tempo.h"
+#include "mensagem.h"
+#include <string>
+#include <sstream>
+
+using namespace std;
+
 class Estatisticas
 {
 private:
-    Time horaAtualizada;
-    int msgsSistema;
-    int msgsCentralLocal;
-    int msgsCentralRemota;
-    int msgsLL;
-    int msgsLR;
-    int msgsRL;
-    int msgsRR;
+    static Time horaAtualizada;
+    static Time horaAtualizadaSistema;
+    static Time horaAtualizadaLocal;
+    static Time horaAtualizadaRemota;
+    static int msgsSistema;
+    static int msgsSistemaMax;
+    static int msgsSistemaPonderada;
+    static int msgsCentralLocal;
+    static int msgsCentralLocalMax;
+    static int msgsCentralLocalPonderada;
+    static int msgsCentralRemota;
+    static int msgsCentralRemotaMax;
+    static int msgsCentralRemotaPonderada;
+    static int msgsLL;
+    static int msgsLR;
+    static int msgsRL;
+    static int msgsRR;
+    static int msgsTotais;
 
 public:
     Estatisticas();
 
+    static void limpar();
     static void atualizaTempoAtual(Time atual);
     static void inserirMensagemSistema(Time atual);
     static void retirarMensagemSistema(Time atual);
@@ -23,16 +41,21 @@ public:
     static void retirarMensagemCentralLocal(Time atual);
     static void inserirMensagemCentralRemota(Time atual);
     static void retirarMensagemCentralRemota(Time atual);
-    static double minMsgsSistema();
-    static double maxMsgsSistema();
+    static int minMsgsSistema();
+    static int maxMsgsSistema();
     static double mediaMsgsSistema();
-    static double minMsgsCLocal();
-    static double maxMsgsCLocal();
+    static int minMsgsCLocal();
+    static int maxMsgsCLocal();
     static double mediaMsgsCLocal();
-    static double minMsgsCRemota();
-    static double maxMsgsCRemota();
+    static int minMsgsCRemota();
+    static int maxMsgsCRemota();
     static double mediaMsgsCRemota();
-    static double inserirMensagem();
+    static int msgsTotaisSistema();
+    static int msgsTotaisLL();
+    static int msgsTotaisLR();
+    static int msgsTotaisRL();
+    static int msgsTotaisRR();
+    static void inserirMensagem(Mensagem msg);
     static string toString();
 };
 
