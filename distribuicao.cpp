@@ -6,21 +6,21 @@ Distribuicao::Distribuicao()
 }
 
 double Distribuicao::expo(double l){
-    return 0;
+    return l;
 }
 
 double Distribuicao::unif(double inf, double sup){
-    return 0;
+    return (inf+sup)/2;
 }
 
 double Distribuicao::normal(double media, double desvio){
-    return 0;
+    return media;
 }
 
 double Distribuicao::triang(double a, double b, double c){
-    return 0;
+    return a;
 }
 
 double Distribuicao::exec(int remetente, int destinatario){
-    return 0;
+    return 50;
 }

@@ -21,6 +21,7 @@ private:
     int nServidoresLocais;
     int nServidoresRemotos;
     int tempoDeSimulacao;
+    //void *simThread(void *);
 
 public:
     explicit MainWindow(QWidget *parent = 0);

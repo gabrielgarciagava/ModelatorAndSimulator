@@ -12,6 +12,7 @@ Simulador::Simulador(Time fimDaSimulacao, int serv_local, int serv_remoto) : loc
 {
     fila_de_eventos.push(make_pair(Time(0), new Criadouro(Time(0), local, remoto)));
     fila_de_eventos.push(make_pair(fimDaSimulacao, new Dispose()));
+    stepsPerSecond = 20;
 }
 
 Simulador::~Simulador(){
@@ -21,13 +22,14 @@ void Simulador::simular(){
     running = true;
 
     int i = 1;
-    cout << i << endl;
+    cout << "steps:" <<stepsPerSecond << endl;
     while(running && step()){
         cout << i << endl;
-        if(i++ > stepsPerSecond){
-            sleep(1000000);
+        if(i++ >= stepsPerSecond){
+            sleep(1);
             i = 0;
         }
+        cout << endl;
     }
 }
 
@@ -40,10 +42,9 @@ bool Simulador::step(){
     if(on_execution){
         cout << "top" << endl;
         s = fila_de_eventos.top();
-        cout << "pop" << endl;
-        cout << s.first.medida << endl;
+        cout << "tempo: " << s.first.medida << endl;
         fila_de_eventos.pop();
-        cout << "tirado" << endl;
+        cout << "pop realizado" << endl;
 
         e = s.second;
         cout << "Vair rodar um evento" << endl;

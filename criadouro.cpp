@@ -2,6 +2,7 @@
 #include "distribuicao.h"
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
 
 double Criadouro::media;
 int Criadouro::percent_for_LL;
@@ -18,6 +19,7 @@ Criadouro::Criadouro(Time tnow, Central &local, Central &remoto) : Evento()
 }
 
 bool Criadouro::run(priority_queue< pair<Time,Evento*> >& fila_de_eventos){
+    cout << "Criadouro" << endl;
     Time tnext(tnow.medida + Distribuicao::expo(media));
     int percent, remetente, destinatario;
     percent = rand()%100;
