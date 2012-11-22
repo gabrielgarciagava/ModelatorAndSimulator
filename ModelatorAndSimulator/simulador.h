@@ -6,7 +6,6 @@
 #include "queue"
 #include "central.h"
 #include <unistd.h>
-#include <string>
 
 class Simulador
 {
@@ -15,16 +14,15 @@ private:
     Central remoto;
     static volatile bool running;
     priority_queue<situacao> fila_de_eventos;
-    static volatile int stepsPerSecond;
+    int stepsPerSecond;
 
 public:
-    Simulador(Time, int locali[], double locald[], int remotoi[], double remotod[]);
+    Simulador(Time, int, int);
     ~Simulador();
     void simular();
     bool step();
     static void stop();
     void set_stepsPerSeond(int s);
-    string coletarEstatisticas();
 };
 
 #endif // SIMULADOR_H

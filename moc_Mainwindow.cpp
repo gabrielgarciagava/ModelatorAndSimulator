@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Mainwindow.h'
 **
-** Created: Thu Nov 22 01:17:05 2012
+** Created: Thu Nov 22 14:53:38 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -42,7 +42,7 @@ static const uint qt_meta_data_MainWindow[] = {
      296,   11,   11,   11, 0x08,
      331,   11,   11,   11, 0x08,
      367,   11,   11,   11, 0x08,
-     403,   11,   11,   11, 0x08,
+     409,  403,   11,   11, 0x08,
 
        0        // eod
 };
@@ -59,7 +59,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "on_edit_suc_remoto_returnPressed()\0"
     "on_edit_frac_remoto_returnPressed()\0"
     "on_tamanho_passo_tela_textChanged()\0"
-    "on_tamanho_passo_sliderReleased()\0"
+    "value\0on_tamanho_passo_valueChanged(int)\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -102,7 +102,7 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 8: on_edit_suc_remoto_returnPressed(); break;
         case 9: on_edit_frac_remoto_returnPressed(); break;
         case 10: on_tamanho_passo_tela_textChanged(); break;
-        case 11: on_tamanho_passo_sliderReleased(); break;
+        case 11: on_tamanho_passo_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
         _id -= 12;

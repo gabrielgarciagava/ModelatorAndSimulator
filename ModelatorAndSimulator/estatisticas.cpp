@@ -1,5 +1,4 @@
 #include "estatisticas.h"
-#include "iostream"
 
 Time Estatisticas::horaAtualizada;
 Time Estatisticas::horaAtualizadaSistema;
@@ -7,13 +6,13 @@ Time Estatisticas::horaAtualizadaLocal;
 Time Estatisticas::horaAtualizadaRemota;
 int Estatisticas::msgsSistema;
 int Estatisticas::msgsSistemaMax;
-double Estatisticas::msgsSistemaPonderada;
+int Estatisticas::msgsSistemaPonderada;
 int Estatisticas::msgsCentralLocal;
 int Estatisticas::msgsCentralLocalMax;
-double Estatisticas::msgsCentralLocalPonderada;
+int Estatisticas::msgsCentralLocalPonderada;
 int Estatisticas::msgsCentralRemota;
 int Estatisticas::msgsCentralRemotaMax;
-double Estatisticas::msgsCentralRemotaPonderada;
+int Estatisticas::msgsCentralRemotaPonderada;
 int Estatisticas::msgsLL;
 int Estatisticas::msgsLR;
 int Estatisticas::msgsRL;
@@ -48,23 +47,18 @@ void Estatisticas::limpar()
 
 void Estatisticas::inserirMensagemSistema(Time atual)
 {
-    cout << "Tempo que ficou no estado" << msgsSistema << " : " << (atual.medida - horaAtualizadaSistema.medida) << endl;
     msgsSistemaPonderada += msgsSistema * (atual.medida - horaAtualizadaSistema.medida);
     msgsSistema++;
     if(msgsSistema > msgsSistemaMax)
         msgsSistemaMax = msgsSistema;
     horaAtualizadaSistema = atual;
-    cout << "Somatorio de Msgs ponderadas no sistema : " << msgsSistemaPonderada << endl;
 }
 
 void Estatisticas::retirarMensagemSistema(Time atual)
 {
-    cout << "Tempo que ficou no estado" << msgsSistema << " : " << (atual.medida - horaAtualizadaSistema.medida) << endl;
-
     msgsSistemaPonderada += msgsSistema * (atual.medida - horaAtualizadaSistema.medida);
     msgsSistema--;
     horaAtualizadaSistema = atual;
-    cout << "Somatorio de Msgs ponderadas no sistema : " << msgsSistemaPonderada << endl;
 }
 
 void Estatisticas::inserirMensagemCentralLocal(Time atual)
@@ -197,23 +191,23 @@ string Estatisticas::toString()
     ss << "Mensagens RL : \t" << msgsRL << "\n";
     ss << "Mensagens RR : \t" << msgsRR << "\n\n\n";
 
-    ss << "Informacoes de quantidade de mensagens no SISTEMA durante a execucao\n";
+    ss << "Informacõess de quantidade de mensagens no sistema durante a execução\n";
     ss << "---------------------------------\n";
-    ss << "Nr minimo de mensagens no sistema : \t" << minMsgsSistema() << "\n";
-    ss << "Nr maximo de mensagens no sistema : \t" << maxMsgsSistema() << "\n";
-    ss << "Media de mensagens no sistema : \t\t" << mediaMsgsSistema() << "\n\n";
+    ss << "Nr mínimo de mensagens no sistema : \t" << minMsgsSistema() << "\n";
+    ss << "Nr máximo de mensagens no sistema : \t" << msgsSistemaMax << "\n";
+    ss << "Média de mensagens no sistema : \t" << msgsSistemaPonderada << "\n\n";
 
-    ss << "Informacoes de quantidade de mensagens na CENTRAL LOCAL durante a execucao\n";
+    ss << "Informacõess de quantidade de mensagens na central local durante a execução\n";
     ss << "---------------------------------\n";
-    ss << "Nr minimo de mensagens na central : \t" << minMsgsCLocal() << "\n";
-    ss << "Nr maximo de mensagens na central : \t" << maxMsgsCLocal() << "\n";
-    ss << "Media de mensagens na central : \t\t" << mediaMsgsCLocal() << "\n\n";
+    ss << "Nr mínimo de mensagens na central: \t" << minMsgsCLocal() << "\n";
+    ss << "Nr máximo de mensagens na central : \t" << msgsCentralLocalMax << "\n";
+    ss << "Média de mensagens na central : \t" << msgsCentralLocalPonderada << "\n\n";
 
-    ss << "Informacoes de quantidade de mensagens na CENTRAL REMOTA durante a execucao\n";
+    ss << "Informacõess de quantidade de mensagens na central remota durante a execução\n";
     ss << "---------------------------------\n";
-    ss << "Nr minimo de mensagens na central : \t" << minMsgsCRemota() << "\n";
-    ss << "Nr maximo de mensagens na central : \t" << maxMsgsCRemota() << "\n";
-    ss << "Media de mensagens na central : \t\t" << mediaMsgsCRemota() << "\n\n";
+    ss << "Nr mínimo de mensagens na central: \t" << minMsgsCRemota() << "\n";
+    ss << "Nr máximo de mensagens na central : \t" << msgsCentralRemotaMax << "\n";
+    ss << "Média de mensagens na central : \t" << msgsCentralRemotaPonderada << "\n\n";
 
     return ss.str();
 }

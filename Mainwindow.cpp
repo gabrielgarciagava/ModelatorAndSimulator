@@ -8,9 +8,7 @@
 
 void *simThread(void * sim)
 {
-    cout << "entrou aquii na thread" << endl;
     ((Simulador*)sim)->simular();
-    cout << "terminou de simular na thread" << endl;
     return (void*)NULL;
 }
 
@@ -21,16 +19,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     sim = NULL;
     ui->setupUi(this);
-    nServidoresLocais = nServidoresRemotos = 1;
-    tempoDeSimulacao = 10000;
+    nServidoresLocais = ui->edit_serv_local->text().toInt();
+    nServidoresRemotos = ui->edit_serv_remoto->text().toInt();
 
+    taxa_suc_local = ui->edit_suc_local->text().toInt();
+    taxa_frac_local = ui->edit_frac_local->text().toInt();
+    taxa_suc_remoto = ui->edit_suc_remoto->text().toInt();
+    taxa_frac_remoto = ui->edit_frac_remoto->text().toInt();
     // Default values
-    Criadouro::set_media(100);
-    Central::set_percent_for_inf(50, 50);
-    Central::set_percent_for_sup(50, 50);
-    Central::set_percent_for_SUCESSO(60);
-    Central::set_percent_for_FRACASSO(30);
-    Central::set_percent_for_ADIAMENTO(10);
     //Distribuicao::
     //Estatisticas::
 }
@@ -47,8 +43,12 @@ void MainWindow::on_botao_inicio_simulacao_clicked()
     ui->botao_inicio_simulacao->setEnabled(false);
 
     if(sim == NULL){
-        cout << tempoDeSimulacao << " locais:"<< nServidoresLocais << " remotos:"<< nServidoresRemotos << endl;
-        sim = new Simulador(Time(tempoDeSimulacao),nServidoresLocais,nServidoresRemotos);
+        int local_ints[] = {nServidoresLocais, taxa_suc_local, taxa_frac_local };
+        double local_doubles[] = {ll_inf, lr_inf, ll_sup, lr_sup};
+        int remoto_ints[] = {nServidoresRemotos, taxa_suc_remoto, taxa_frac_remoto };
+        double remoto_doubles[] = {rl_inf, rr_inf, rl_sup, rr_sup};
+        cout << ui->tamanhoDaSimulacao->text().toDouble() << " locais:"<< nServidoresLocais << " remotos:"<< nServidoresRemotos << endl;
+        sim = new Simulador(Time(ui->tamanhoDaSimulacao->text().toDouble()),local_ints, local_doubles, remoto_ints, remoto_doubles);
     }
 
     cout << "Simulador criado" << endl;
@@ -67,6 +67,7 @@ void MainWindow::on_botao_parar_simulacao_clicked()
     ui->botao_pausar_simulacao->setText("Travar");
 
     sim->stop();
+    amostrarEstatisticas();
     delete sim;
     sim = NULL;
 }
@@ -76,6 +77,7 @@ void MainWindow::on_botao_pausar_simulacao_clicked()
     if(ui->botao_pausar_simulacao->text().toStdString() == "Travar" ){
         ui->botao_pausar_simulacao->setText("Continuar");
         ui->botao_avancar_simulacao->setEnabled(true);
+        amostrarEstatisticas();
         sim->stop();
 
     }else{  //Texto atual = Continuar
@@ -106,7 +108,7 @@ void MainWindow::on_edit_serv_local_returnPressed()
         ss << valor;
         ui->edit_serv_local->setText(QString(ss.str().c_str()));
     }
-    //sim->set_localServers(valor);
+    nServidoresLocais = valor;
 }
 
 void MainWindow::on_edit_suc_local_returnPressed()
@@ -124,7 +126,7 @@ void MainWindow::on_edit_suc_local_returnPressed()
         ss << valor;
         ui->edit_suc_local->setText(QString(ss.str().c_str()));
     }
-    //sim->set_localSucesso(valor);
+    taxa_suc_local = valor;
 }
 
 void MainWindow::on_edit_frac_local_returnPressed()
@@ -142,7 +144,7 @@ void MainWindow::on_edit_frac_local_returnPressed()
         ss << valor;
         ui->edit_frac_local->setText(QString(ss.str().c_str()));
     }
-    //sim->set_localFracasso(valor);
+    taxa_frac_local = valor;
 }
 
 void MainWindow::on_edit_serv_remoto_returnPressed()
@@ -160,7 +162,7 @@ void MainWindow::on_edit_serv_remoto_returnPressed()
         ss << valor;
         ui->edit_serv_remoto->setText(QString(ss.str().c_str()));
     }
-    //sim->set_remotoServs(valor);
+    nServidoresRemotos = valor;
 }
 
 void MainWindow::on_edit_suc_remoto_returnPressed()
@@ -178,7 +180,7 @@ void MainWindow::on_edit_suc_remoto_returnPressed()
         ss << valor;
         ui->edit_suc_remoto->setText(QString(ss.str().c_str()));
     }
-    //sim->set_remotoSucesso(valor);
+    taxa_suc_remoto = valor;
 }
 
 void MainWindow::on_edit_frac_remoto_returnPressed()
@@ -196,7 +198,7 @@ void MainWindow::on_edit_frac_remoto_returnPressed()
         ss << valor;
         ui->edit_frac_remoto->setText(QString(ss.str().c_str()));
     }
-    //sim->set_remotoFracasso(valor);
+    taxa_frac_remoto = valor;
 }
 
 void MainWindow::on_tamanho_passo_tela_textChanged()
@@ -213,19 +215,28 @@ void MainWindow::on_tamanho_passo_tela_textChanged()
         ss << valor;
         ui->tamanho_passo_tela->setText(QString(ss.str().c_str()));
     }
-    if(valor > 200){
-        valor = 200;
+    if(valor > 500){
+        valor = 500;
         stringstream ss;
         ss << valor;
         ui->tamanho_passo_tela->setText(QString(ss.str().c_str()));
     }
 
     ui->tamanho_passo->setSliderPosition(valor);
+    sim->set_stepsPerSeond(ui->tamanho_passo->value());
 }
 
-void MainWindow::on_tamanho_passo_sliderReleased()
+void MainWindow::on_tamanho_passo_valueChanged(int value)
 {
     stringstream ss;
-    ss << ui->tamanho_passo->value();
-    ui->tamanho_passo_tela->setText(QString(ss.str().c_str()));
+    ss << value;
+    if(value != ui->tamanho_passo_tela->text().toInt())
+        ui->tamanho_passo_tela->setText(QString(ss.str().c_str()));
+    sim->set_stepsPerSeond(value);
+}
+
+void MainWindow::amostrarEstatisticas()
+{
+    string e = sim->coletarEstatisticas();
+    ui->caixa_estatistica->setText(QString(QString::fromStdString(e)));
 }

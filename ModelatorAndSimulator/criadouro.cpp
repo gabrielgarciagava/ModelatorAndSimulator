@@ -1,10 +1,10 @@
 #include "criadouro.h"
 #include "distribuicao.h"
-#include "estatisticas.h"
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
 
+double Criadouro::media;
 int Criadouro::percent_for_LL;
 int Criadouro::percent_for_LR;
 int Criadouro::percent_for_RL;
@@ -15,13 +15,11 @@ Criadouro::Criadouro(Time tnow, Central &local, Central &remoto) : Evento()
     this->tnow = tnow;
     this->local = local;
     this->remoto = remoto;
+    srand( time(NULL) );
 }
 
 bool Criadouro::run(priority_queue< pair<Time,Evento*> >& fila_de_eventos){
     cout << "Criadouro" << endl;
-    cout << "Inserindo mensagem no sistema" << endl;
-    Estatisticas::inserirMensagemSistema(tnow);
-
     Time tnext(tnow.medida + Distribuicao::expo(media));
     int percent, remetente, destinatario;
     percent = rand()%100;
@@ -57,16 +55,8 @@ bool Criadouro::run(priority_queue< pair<Time,Evento*> >& fila_de_eventos){
     return true;
 }
 
-//void Criadouro::set_media(double m)      {media = m;}
+void Criadouro::set_media(double m)      {media = m;}
 void Criadouro::set_percent_for_LL(int p){percent_for_LL = p;}
 void Criadouro::set_percent_for_LR(int p){percent_for_LR = p;}
 void Criadouro::set_percent_for_RL(int p){percent_for_RL = p;}
 void Criadouro::set_percent_for_RR(int p){percent_for_RR = p;}
-
-void Criadouro::init()
-{
-    percent_for_LL = 50;
-    percent_for_LR = 25;
-    percent_for_RL = 15;
-    percent_for_RR = 10;
-}

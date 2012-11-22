@@ -1,35 +1,21 @@
 #include "central.h"
-#include "iostream"
 #include <stdlib.h>
 #include <time.h>
 #include "distribuicao.h"
-#include "estatisticas.h"
 #include "release_central.h"
+
+double Central::_inf[2];
+double Central::_sup[2];
+int Central::percent_for_SUCESSO;
+int Central::percent_for_FRACASSO;
+int Central::percent_for_ADIAMENTO;
 
 Central::Central(){
 }
-Central::Central(int parami[3], double paramd[4])
+Central::Central(int total_servidores)
 {
-    int total_servidores;
-    double inf_local, inf_remoto, sup_local, sup_remoto;
-    int percent_for_SUCESSO, percent_for_FRACASSO;
-    total_servidores = parami[0];
-    inf_local = paramd[0];
-    inf_remoto = paramd[1];
-    sup_local = paramd[2];
-    sup_remoto = paramd[3];
-    percent_for_SUCESSO = parami[1];
-    percent_for_FRACASSO = parami[2];
-
     this->total_servidores = total_servidores;
     this->servidores_livre = total_servidores;
-
-    this->_inf[0] = inf_local;
-    this->_inf[1] = inf_remoto;
-    this->_sup[0] = sup_local;
-    this->_sup[1] = sup_remoto;
-    this->percent_for_SUCESSO = percent_for_SUCESSO;
-    this->percent_for_FRACASSO = percent_for_FRACASSO;
     srand( time(NULL) );
 }
 
@@ -42,7 +28,7 @@ void Central::receber(Mensagem* msg, priority_queue< pair<Time,Evento*> >& fila_
         msg->set_situacao(SUCESSO);
     }
     else{
-        percent -= percent_for_SUCESSO;
+        percent-= percent_for_SUCESSO;
         if(percent < percent_for_FRACASSO){
             msg->set_situacao(FRACASSO);
         }
@@ -76,11 +62,12 @@ void Central::processar(Mensagem* msg, priority_queue< pair<Time,Evento*> >& fil
 
     if(msg->situacao() == ADIAMENTO){
         this->receber(msg, fila_de_eventos);
-    }else{
-        cout << "Release" << endl;
-        cout << "retirando msg do sistema" << endl;
-        Estatisticas::retirarMensagemSistema(tnow);
-        Estatisticas::inserirMensagem(*msg);
     }
 
 }
+
+void Central::set_percent_for_inf(double local, double remoto){_inf[0] = local; _inf[1] = remoto;}
+void Central::set_percent_for_sup(double local, double remoto){_sup[0] = local; _sup[1] = remoto;}
+void Central::set_percent_for_SUCESSO(int p){percent_for_SUCESSO = p;}
+void Central::set_percent_for_FRACASSO(int p){percent_for_FRACASSO = p;}
+void Central::set_percent_for_ADIAMENTO(int p){percent_for_ADIAMENTO = p;}

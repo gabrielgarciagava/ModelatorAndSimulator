@@ -19,8 +19,21 @@ class MainWindow : public QMainWindow
 private:
     Simulador * sim;
     int nServidoresLocais;
+    static const double ll_inf = 0.12;
+    static const double lr_inf = 0.11;
+    static const double ll_sup = 0.15;
+    static const double lr_sup = 0.14;
+    int taxa_suc_local;
+    int taxa_frac_local;
     int nServidoresRemotos;
+    static const double rl_inf = 0.10;
+    static const double rr_inf = 0.13;
+    static const double rl_sup = 0.12;
+    static const double rr_sup = 0.15;
+    int taxa_suc_remoto;
+    int taxa_frac_remoto;
     int tempoDeSimulacao;
+    void amostrarEstatisticas();
     //void *simThread(void *);
 
 public:
@@ -50,7 +63,7 @@ private slots:
 
     void on_tamanho_passo_tela_textChanged();
 
-    void on_tamanho_passo_sliderReleased();
+    void on_tamanho_passo_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;

@@ -11,7 +11,7 @@ private:
     Time tnow;
     Central local;
     Central remoto;
-    static const double media = 0.5;
+    static double media;
     static int percent_for_LL;
     static int percent_for_LR;
     static int percent_for_RL;
@@ -20,12 +20,11 @@ public:
     Criadouro(Time tnow, Central& local, Central& remoto);
     bool run(priority_queue< pair<Time,Evento*> >& fila_de_eventos);
     bool operator<(const Evento &aNode) const{ return this == &aNode; }
-    //static void set_media(double m);
+    static void set_media(double m);
     static void set_percent_for_LL(int p);
     static void set_percent_for_LR(int p);
     static void set_percent_for_RL(int p);
     static void set_percent_for_RR(int p);
-    static void init();
 };
 
 #endif // CRIADOURO_H

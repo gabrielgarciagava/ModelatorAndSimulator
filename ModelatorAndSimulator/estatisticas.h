@@ -17,13 +17,13 @@ private:
     static Time horaAtualizadaRemota;
     static int msgsSistema;
     static int msgsSistemaMax;
-    static double msgsSistemaPonderada;
+    static int msgsSistemaPonderada;
     static int msgsCentralLocal;
     static int msgsCentralLocalMax;
-    static double msgsCentralLocalPonderada;
+    static int msgsCentralLocalPonderada;
     static int msgsCentralRemota;
     static int msgsCentralRemotaMax;
-    static double msgsCentralRemotaPonderada;
+    static int msgsCentralRemotaPonderada;
     static int msgsLL;
     static int msgsLR;
     static int msgsRL;

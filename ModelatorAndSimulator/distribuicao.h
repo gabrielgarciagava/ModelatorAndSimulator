@@ -3,12 +3,8 @@
 
 class Distribuicao
 {
-    static bool flag;
-    static double r1;
-    static double r2;
 public:
     Distribuicao();
-    static void init();
     static double expo  (double l);
     static double unif  (double inf, double sup);
     static double normal(double media, double desvio);
