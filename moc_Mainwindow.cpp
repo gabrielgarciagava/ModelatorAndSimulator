@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Mainwindow.h'
 **
-** Created: Fri Oct 26 21:56:20 2012
+** Created: Thu Nov 22 01:17:05 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+      12,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,6 +35,14 @@ static const uint qt_meta_data_MainWindow[] = {
       48,   11,   11,   11, 0x08,
       83,   11,   11,   11, 0x08,
      119,   11,   11,   11, 0x08,
+     156,   11,   11,   11, 0x08,
+     191,   11,   11,   11, 0x08,
+     225,   11,   11,   11, 0x08,
+     260,   11,   11,   11, 0x08,
+     296,   11,   11,   11, 0x08,
+     331,   11,   11,   11, 0x08,
+     367,   11,   11,   11, 0x08,
+     403,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -44,6 +52,14 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "on_botao_parar_simulacao_clicked()\0"
     "on_botao_pausar_simulacao_clicked()\0"
     "on_botao_avancar_simulacao_clicked()\0"
+    "on_edit_serv_local_returnPressed()\0"
+    "on_edit_suc_local_returnPressed()\0"
+    "on_edit_frac_local_returnPressed()\0"
+    "on_edit_serv_remoto_returnPressed()\0"
+    "on_edit_suc_remoto_returnPressed()\0"
+    "on_edit_frac_remoto_returnPressed()\0"
+    "on_tamanho_passo_tela_textChanged()\0"
+    "on_tamanho_passo_sliderReleased()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -79,9 +95,17 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: on_botao_parar_simulacao_clicked(); break;
         case 2: on_botao_pausar_simulacao_clicked(); break;
         case 3: on_botao_avancar_simulacao_clicked(); break;
+        case 4: on_edit_serv_local_returnPressed(); break;
+        case 5: on_edit_suc_local_returnPressed(); break;
+        case 6: on_edit_frac_local_returnPressed(); break;
+        case 7: on_edit_serv_remoto_returnPressed(); break;
+        case 8: on_edit_suc_remoto_returnPressed(); break;
+        case 9: on_edit_frac_remoto_returnPressed(); break;
+        case 10: on_tamanho_passo_tela_textChanged(); break;
+        case 11: on_tamanho_passo_sliderReleased(); break;
         default: ;
         }
-        _id -= 4;
+        _id -= 12;
     }
     return _id;
 }

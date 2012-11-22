@@ -11,6 +11,7 @@ void *simThread(void * sim)
     cout << "entrou aquii na thread" << endl;
     ((Simulador*)sim)->simular();
     cout << "terminou de simular na thread" << endl;
+    return (void*)NULL;
 }
 
 
@@ -90,9 +91,141 @@ void MainWindow::on_botao_avancar_simulacao_clicked()
     sim->step();
 }
 
-void MainWindow::on_tamanho_passo_valueChanged(int value)
+void MainWindow::on_edit_serv_local_returnPressed()
+{
+    int valor = ui->edit_serv_local->text().toInt();
+    if(valor < 1){
+        valor = 1;
+        stringstream ss;
+        ss << valor;
+        ui->edit_serv_local->setText(QString(ss.str().c_str()));
+    }
+    if(valor > 300){
+        valor = 300;
+        stringstream ss;
+        ss << valor;
+        ui->edit_serv_local->setText(QString(ss.str().c_str()));
+    }
+    //sim->set_localServers(valor);
+}
+
+void MainWindow::on_edit_suc_local_returnPressed()
+{
+    int valor = ui->edit_suc_local->text().toInt();
+    if(valor < 0){
+        valor = 0;
+        stringstream ss;
+        ss << valor;
+        ui->edit_suc_local->setText(QString(ss.str().c_str()));
+    }
+    if(valor +  ui->edit_frac_local->text().toInt() > 100){
+        valor = 100 -  ui->edit_frac_local->text().toInt();
+        stringstream ss;
+        ss << valor;
+        ui->edit_suc_local->setText(QString(ss.str().c_str()));
+    }
+    //sim->set_localSucesso(valor);
+}
+
+void MainWindow::on_edit_frac_local_returnPressed()
+{
+    int valor = ui->edit_frac_local->text().toInt();
+    if(valor < 0){
+        valor = 0;
+        stringstream ss;
+        ss << valor;
+        ui->edit_frac_local->setText(QString(ss.str().c_str()));
+    }
+    if(valor +  ui->edit_suc_local->text().toInt() > 100){
+        valor = 100 -  ui->edit_suc_local->text().toInt();
+        stringstream ss;
+        ss << valor;
+        ui->edit_frac_local->setText(QString(ss.str().c_str()));
+    }
+    //sim->set_localFracasso(valor);
+}
+
+void MainWindow::on_edit_serv_remoto_returnPressed()
+{
+    int valor = ui->edit_serv_remoto->text().toInt();
+    if(valor < 1){
+        valor = 1;
+        stringstream ss;
+        ss << valor;
+        ui->edit_serv_remoto->setText(QString(ss.str().c_str()));
+    }
+    if(valor > 300){
+        valor = 300;
+        stringstream ss;
+        ss << valor;
+        ui->edit_serv_remoto->setText(QString(ss.str().c_str()));
+    }
+    //sim->set_remotoServs(valor);
+}
+
+void MainWindow::on_edit_suc_remoto_returnPressed()
+{
+    int valor = ui->edit_suc_remoto->text().toInt();
+    if(valor < 0){
+        valor = 0;
+        stringstream ss;
+        ss << valor;
+        ui->edit_suc_remoto->setText(QString(ss.str().c_str()));
+    }
+    if(valor +  ui->edit_frac_remoto->text().toInt() > 100){
+        valor = 100 -  ui->edit_frac_remoto->text().toInt();
+        stringstream ss;
+        ss << valor;
+        ui->edit_suc_remoto->setText(QString(ss.str().c_str()));
+    }
+    //sim->set_remotoSucesso(valor);
+}
+
+void MainWindow::on_edit_frac_remoto_returnPressed()
+{
+    int valor = ui->edit_frac_remoto->text().toInt();
+    if(valor < 0){
+        valor = 0;
+        stringstream ss;
+        ss << valor;
+        ui->edit_frac_remoto->setText(QString(ss.str().c_str()));
+    }
+    if(valor +  ui->edit_suc_remoto->text().toInt() > 100){
+        valor = 100 -  ui->edit_suc_remoto->text().toInt();
+        stringstream ss;
+        ss << valor;
+        ui->edit_frac_remoto->setText(QString(ss.str().c_str()));
+    }
+    //sim->set_remotoFracasso(valor);
+}
+
+void MainWindow::on_tamanho_passo_tela_textChanged()
+{
+    int valor;
+    if(ui->tamanho_passo_tela->text().isEmpty())
+        valor = 1;
+    else
+        valor = ui->tamanho_passo_tela->text().toInt();
+
+    if(valor < 1){
+        valor = 1;
+        stringstream ss;
+        ss << valor;
+        ui->tamanho_passo_tela->setText(QString(ss.str().c_str()));
+    }
+    if(valor > 200){
+        valor = 200;
+        stringstream ss;
+        ss << valor;
+        ui->tamanho_passo_tela->setText(QString(ss.str().c_str()));
+    }
+
+    ui->tamanho_passo->setSliderPosition(valor);
+}
+
+void MainWindow::on_tamanho_passo_sliderReleased()
 {
     stringstream ss;
-    ss << value;
+    ss << ui->tamanho_passo->value();
     ui->tamanho_passo_tela->setText(QString(ss.str().c_str()));
 }

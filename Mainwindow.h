@@ -36,7 +36,21 @@ private slots:
 
     void on_botao_avancar_simulacao_clicked();
 
-    void on_tamanho_passo_valueChanged(int value);
+    void on_edit_serv_local_returnPressed();
+
+    void on_edit_suc_local_returnPressed();
+
+    void on_edit_frac_local_returnPressed();
+
+    void on_edit_serv_remoto_returnPressed();
+
+    void on_edit_suc_remoto_returnPressed();
+
+    void on_edit_frac_remoto_returnPressed();
+
+    void on_tamanho_passo_tela_textChanged();
+
+    void on_tamanho_passo_sliderReleased();
 
 private:
     Ui::MainWindow *ui;
