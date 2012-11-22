@@ -30,6 +30,9 @@ bool Criadouro::run(priority_queue< pair<Time,Evento*> >& fila_de_eventos){
         remetente    = LOCAL;
         destinatario = LOCAL;
         local.receber(new Mensagem(remetente,destinatario, tnow), fila_de_eventos);
+
+        cout << "Mensagem entrando na Central Local\n";
+        Estatisticas::inserirMensagemCentralLocal(tnow);
     }
     else{
         percent-= percent_for_LL;
@@ -37,6 +40,9 @@ bool Criadouro::run(priority_queue< pair<Time,Evento*> >& fila_de_eventos){
             remetente    = LOCAL;
             destinatario = REMOTO;
             local.receber(new Mensagem(remetente,destinatario, tnow),fila_de_eventos);
+
+            cout << "Mensagem entrando na Central Local\n";
+            Estatisticas::inserirMensagemCentralLocal(tnow);
         }
         else{
             percent-= percent_for_LR;
@@ -44,11 +50,17 @@ bool Criadouro::run(priority_queue< pair<Time,Evento*> >& fila_de_eventos){
                 remetente    = REMOTO;
                 destinatario = LOCAL;
                 remoto.receber(new Mensagem(remetente,destinatario, tnow),fila_de_eventos);
+
+                cout << "Mensagem entrando na Central Remota\n";
+                Estatisticas::inserirMensagemCentralRemota(tnow);
             }
             else{
                 remetente    = REMOTO;
                 destinatario = REMOTO;
                 remoto.receber(new Mensagem(remetente,destinatario, tnow),fila_de_eventos);
+
+                cout << "Mensagem entrando na Central Remota\n";
+                Estatisticas::inserirMensagemCentralRemota(tnow);
             }
         }
     }

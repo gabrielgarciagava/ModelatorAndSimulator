@@ -1,8 +1,10 @@
 #include "distribuicao.h"
+#include <iostream>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
 
+using namespace std;
 bool Distribuicao::flag;
 double Distribuicao::r1;
 double Distribuicao::r2;
@@ -12,13 +14,17 @@ Distribuicao::Distribuicao()
 
 }
 void Distribuicao::init(){
+    flag = 1;
     srand( time(NULL) );
 }
 
 double Distribuicao::expo(double l){
-    double r;
-    while ((r = ((double) rand())/RAND_MAX) == 0);
-    return (-l)*log(r);
+    double r,v;
+    do {
+        while ((r = (double)(rand()%10000)/10000) == 0);
+        v = (-l)*log(r);
+    } while(v < 0);
+    return v;
 }
 
 double Distribuicao::unif(double inf, double sup){
@@ -29,16 +35,20 @@ double Distribuicao::unif(double inf, double sup){
 double Distribuicao::normal(double media, double desvio){
     double value,z;
 
-    if(flag){
-        while((r1 = ((double) rand())/RAND_MAX) == 0);
-        r2 = ((double) rand())/RAND_MAX;
-        z = sqrt(-2*log(r1))*cos(2*M_PI*r2);
-    } else {
-        z = sqrt(-2*log(r1))*sin(2*M_PI*r2);
-    }
+    do{
+        if(flag){
+            while((r1 = (double)(rand()%10000)/10000) == 0);
+            r2 = ((double) rand())/RAND_MAX;
+            cout << "log de " << r1 << "eh igual a " << log(r1) << endl;
+            z = sqrt(-2*log(r1))*cos(2*M_PI*r2);
+        } else {
+            z = sqrt(-2*log(r1))*sin(2*M_PI*r2);
+        }
+        value = media + desvio*z;
+        flag = !flag;
+        cout << " O value deu " << value << endl;
+    } while(value < 0);
 
-    value = media + desvio*z;
-    flag = !flag;
     return value;
 }
 
@@ -50,13 +60,15 @@ double Distribuicao::triang(double a, double b, double c){
     else
         x = c - sqrt((1-r)*(c-b)*(c-a));
 
+    cout << "A triangular ta dandoooo " << x << endl;
+
     return x;
 }
 
 double Distribuicao::exec(int remetente, int destinatario){
     double valor;
     if(remetente == 0){     // LOCAL
-        if(destinatario==0){// LOCAL
+        if(destinatario == 0){// LOCAL
             valor = normal(0.55, 0.05);
         }
         else{               // REMOTO
@@ -64,7 +76,7 @@ double Distribuicao::exec(int remetente, int destinatario){
         }
     }
     else{                   // REMOTO
-        if(destinatario==0){// LOCAL
+        if(destinatario == 0){// LOCAL
             valor = triang(0.14, 0.25, 0.55);
         }
         else{               // REMOTO

@@ -85,6 +85,8 @@ void Estatisticas::retirarMensagemCentralLocal(Time atual)
 
 void Estatisticas::inserirMensagemCentralRemota(Time atual)
 {
+    cout << "Entrada: mensagem ponderada remota esta em " << msgsCentralRemotaPonderada << endl;
+cout << "Estado : " << msgsCentralRemota << endl;
     msgsCentralRemotaPonderada += msgsCentralRemota * (atual.medida - horaAtualizadaRemota.medida);
     msgsCentralRemota++;
     if(msgsCentralRemota > msgsCentralRemotaMax)
@@ -94,6 +96,8 @@ void Estatisticas::inserirMensagemCentralRemota(Time atual)
 
 void Estatisticas::retirarMensagemCentralRemota(Time atual)
 {
+    cout << "Saida: mensagem ponderada remota esta em " << msgsCentralRemotaPonderada << endl;
+    cout << "Estado : " << msgsCentralRemota << endl;
     msgsCentralRemotaPonderada += msgsCentralRemota * (atual.medida - horaAtualizadaRemota.medida);
     msgsCentralRemota--;
     horaAtualizadaRemota = atual;
@@ -171,14 +175,14 @@ int Estatisticas::msgsTotaisRR()
 
 void Estatisticas::inserirMensagem(Mensagem msg)
 {
-    if(msg.destinatario() == LOCAL){
-        if(msg.remetente() == LOCAL){
+    if(msg.remetente() == LOCAL){
+        if(msg.destinatario() == LOCAL){
             msgsLL++;
         } else {
             msgsLR++;
         }
     } else {
-        if(msg.remetente() == LOCAL){
+        if(msg.destinatario() == LOCAL){
             msgsRL++;
         } else {
             msgsRR++;
@@ -191,26 +195,26 @@ string Estatisticas::toString()
 {
     stringstream ss;
     ss << "Mensagens Totais : \t" << msgsTotais << "\n";
-    ss << "---------------------------------\n";
+    ss << "------------------------------------------------------------------\n";
     ss << "Mensagens LL : \t" << msgsLL << "\n";
     ss << "Mensagens LR : \t" << msgsLR << "\n";
     ss << "Mensagens RL : \t" << msgsRL << "\n";
     ss << "Mensagens RR : \t" << msgsRR << "\n\n\n";
 
     ss << "Informacoes de quantidade de mensagens no SISTEMA durante a execucao\n";
-    ss << "---------------------------------\n";
+    ss << "------------------------------------------------------------------\n";
     ss << "Nr minimo de mensagens no sistema : \t" << minMsgsSistema() << "\n";
     ss << "Nr maximo de mensagens no sistema : \t" << maxMsgsSistema() << "\n";
     ss << "Media de mensagens no sistema : \t\t" << mediaMsgsSistema() << "\n\n";
 
     ss << "Informacoes de quantidade de mensagens na CENTRAL LOCAL durante a execucao\n";
-    ss << "---------------------------------\n";
+    ss << "------------------------------------------------------------------\n";
     ss << "Nr minimo de mensagens na central : \t" << minMsgsCLocal() << "\n";
     ss << "Nr maximo de mensagens na central : \t" << maxMsgsCLocal() << "\n";
     ss << "Media de mensagens na central : \t\t" << mediaMsgsCLocal() << "\n\n";
 
     ss << "Informacoes de quantidade de mensagens na CENTRAL REMOTA durante a execucao\n";
-    ss << "---------------------------------\n";
+    ss << "------------------------------------------------------------------\n";
     ss << "Nr minimo de mensagens na central : \t" << minMsgsCRemota() << "\n";
     ss << "Nr maximo de mensagens na central : \t" << maxMsgsCRemota() << "\n";
     ss << "Media de mensagens na central : \t\t" << mediaMsgsCRemota() << "\n\n";

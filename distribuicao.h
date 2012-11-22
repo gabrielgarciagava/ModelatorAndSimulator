@@ -1,5 +1,6 @@
 #ifndef DISTRIBUICAO_H
 #define DISTRIBUICAO_H
+#define ERROR 0.0001
 
 class Distribuicao
 {

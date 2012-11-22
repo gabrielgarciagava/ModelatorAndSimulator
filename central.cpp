@@ -78,9 +78,18 @@ void Central::processar(Mensagem* msg, priority_queue< pair<Time,Evento*> >& fil
         this->receber(msg, fila_de_eventos);
     }else{
         cout << "Release" << endl;
-        cout << "retirando msg do sistema" << endl;
+        if(msg->remetente() == LOCAL){
+            cout << "Mensagem saindo da Central Local\n";
+            Estatisticas::retirarMensagemCentralLocal(tnow);
+        }else{
+            cout << "Mensagem saindo da Central Remota\n";
+            Estatisticas::retirarMensagemCentralRemota(tnow);
+        }
+        cout << "Retirando msg do sistema" << endl;
         Estatisticas::retirarMensagemSistema(tnow);
         Estatisticas::inserirMensagem(*msg);
+        if(servidores_livre < total_servidores)
+            servidores_livre++;
     }
 
 }

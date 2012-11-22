@@ -93,9 +93,9 @@ void MainWindow::on_botao_avancar_simulacao_clicked()
     sim->step();
 }
 
-void MainWindow::on_edit_serv_local_returnPressed()
+void MainWindow::on_edit_serv_local_textChanged(const QString &arg1)
 {
-    int valor = ui->edit_serv_local->text().toInt();
+    int valor = arg1.toInt();
     if(valor < 1){
         valor = 1;
         stringstream ss;
@@ -111,9 +111,9 @@ void MainWindow::on_edit_serv_local_returnPressed()
     nServidoresLocais = valor;
 }
 
-void MainWindow::on_edit_suc_local_returnPressed()
+void MainWindow::on_edit_suc_local_textChanged(const QString &arg1)
 {
-    int valor = ui->edit_suc_local->text().toInt();
+    int valor = arg1.toInt();
     if(valor < 0){
         valor = 0;
         stringstream ss;
@@ -129,9 +129,9 @@ void MainWindow::on_edit_suc_local_returnPressed()
     taxa_suc_local = valor;
 }
 
-void MainWindow::on_edit_frac_local_returnPressed()
+void MainWindow::on_edit_frac_local_textChanged(const QString &arg1)
 {
-    int valor = ui->edit_frac_local->text().toInt();
+    int valor = arg1.toInt();
     if(valor < 0){
         valor = 0;
         stringstream ss;
@@ -147,9 +147,9 @@ void MainWindow::on_edit_frac_local_returnPressed()
     taxa_frac_local = valor;
 }
 
-void MainWindow::on_edit_serv_remoto_returnPressed()
+void MainWindow::on_edit_serv_remoto_textChanged(const QString &arg1)
 {
-    int valor = ui->edit_serv_remoto->text().toInt();
+    int valor = arg1.toInt();
     if(valor < 1){
         valor = 1;
         stringstream ss;
@@ -165,9 +165,9 @@ void MainWindow::on_edit_serv_remoto_returnPressed()
     nServidoresRemotos = valor;
 }
 
-void MainWindow::on_edit_suc_remoto_returnPressed()
+void MainWindow::on_edit_suc_remoto_textChanged(const QString &arg1)
 {
-    int valor = ui->edit_suc_remoto->text().toInt();
+    int valor = arg1.toInt();
     if(valor < 0){
         valor = 0;
         stringstream ss;
@@ -183,9 +183,9 @@ void MainWindow::on_edit_suc_remoto_returnPressed()
     taxa_suc_remoto = valor;
 }
 
-void MainWindow::on_edit_frac_remoto_returnPressed()
+void MainWindow::on_edit_frac_remoto_textChanged(const QString &arg1)
 {
-    int valor = ui->edit_frac_remoto->text().toInt();
+    int valor = arg1.toInt();
     if(valor < 0){
         valor = 0;
         stringstream ss;
