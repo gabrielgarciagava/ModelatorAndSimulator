@@ -29,6 +29,12 @@ private:
     static int msgsRL;
     static int msgsRR;
     static int msgsTotais;
+    static double tempoMinimoNoSistema;
+    static double tempoMaximoNoSistema;
+    static double somatorioTempoNoSistema;
+    static double tempoLivreSistema;
+    static double tempoLivreLocal;
+    static double tempoLivreRemoto;
 
 public:
     Estatisticas();

@@ -5,8 +5,8 @@
 #include "evento.h"
 #include "queue"
 #include "central.h"
-#include <unistd.h>
 #include <string>
+#include <unistd.h>
 
 class Simulador
 {

@@ -5,6 +5,7 @@ Mensagem::Mensagem(int remetente, int destinatario, Time tnow){
     this->_destinatario = destinatario;
     this->_situacao = INDEFINIDO;
     this->_stamp = tnow;
+    this->_inicio.medida = tnow.medida;
 }
 
 int Mensagem::remetente(){
@@ -26,6 +27,11 @@ void Mensagem::set_situacao(int novo){
 
 Time Mensagem::time(){
     return _stamp;
+}
+
+Time Mensagem::begin_time()
+{
+    return _inicio;
 }
 
 

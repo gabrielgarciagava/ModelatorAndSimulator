@@ -11,7 +11,7 @@ using namespace std;
 volatile bool Simulador::running;
 volatile int Simulador::stepsPerSecond;
 
-Simulador::Simulador(Time fimDaSimulacao, int locali[3], double locald[4], int remotoi[3], double remotod[4]) :
+Simulador::Simulador(Time fimDaSimulacao, int locali[5], double locald[4], int remotoi[5], double remotod[4]) :
     local(locali,locald), remoto(remotoi,remotod)
 {
     Criadouro::init();
@@ -47,14 +47,10 @@ bool Simulador::step(){
 
     cout << "Iniciando step" << endl;
     if(on_execution){
-        cout << "top" << endl;
         s = fila_de_eventos.top();
-        cout << "tempo: " << s.first.medida << endl;
         fila_de_eventos.pop();
-        cout << "pop realizado" << endl;
 
         e = s.second;
-        cout << "Vair rodar um evento" << endl;
         on_execution = e->run(fila_de_eventos);
         cout << "Evento executado" << endl;
     }

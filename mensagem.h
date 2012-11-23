@@ -16,6 +16,7 @@ private:
     int _destinatario;
     int _situacao;
     Time _stamp;
+    Time _inicio;
 
 public:
     Mensagem(int, int, Time);
@@ -24,6 +25,7 @@ public:
     int  situacao();
     void set_situacao(int);
     Time time();
+    Time begin_time();
     void stamp(Time& tnow);
 };
 

@@ -19,6 +19,12 @@ int Estatisticas::msgsLR;
 int Estatisticas::msgsRL;
 int Estatisticas::msgsRR;
 int Estatisticas::msgsTotais;
+double Estatisticas::tempoMinimoNoSistema;
+double Estatisticas::tempoMaximoNoSistema;
+double Estatisticas::somatorioTempoNoSistema;
+double Estatisticas::tempoLivreSistema;
+double Estatisticas::tempoLivreLocal;
+double Estatisticas::tempoLivreRemoto;
 
 Estatisticas::Estatisticas()
 {
@@ -44,10 +50,18 @@ void Estatisticas::limpar()
     msgsRL = 0;
     msgsRR = 0;
     msgsTotais = 0;
+    tempoMinimoNoSistema = 9999999;
+    tempoMaximoNoSistema = 0;
+    somatorioTempoNoSistema = 0;
+    tempoLivreSistema = 0;
+    tempoLivreLocal = 0;
+    tempoLivreRemoto = 0;
 }
 
 void Estatisticas::inserirMensagemSistema(Time atual)
 {
+    if(!msgsSistema)
+        tempoLivreSistema += (atual.medida - horaAtualizadaSistema.medida);
     cout << "Tempo que ficou no estado" << msgsSistema << " : " << (atual.medida - horaAtualizadaSistema.medida) << endl;
     msgsSistemaPonderada += msgsSistema * (atual.medida - horaAtualizadaSistema.medida);
     msgsSistema++;
@@ -59,8 +73,9 @@ void Estatisticas::inserirMensagemSistema(Time atual)
 
 void Estatisticas::retirarMensagemSistema(Time atual)
 {
+    if(!msgsSistema)
+        tempoLivreSistema += (atual.medida - horaAtualizadaSistema.medida);
     cout << "Tempo que ficou no estado" << msgsSistema << " : " << (atual.medida - horaAtualizadaSistema.medida) << endl;
-
     msgsSistemaPonderada += msgsSistema * (atual.medida - horaAtualizadaSistema.medida);
     msgsSistema--;
     horaAtualizadaSistema = atual;
@@ -69,6 +84,8 @@ void Estatisticas::retirarMensagemSistema(Time atual)
 
 void Estatisticas::inserirMensagemCentralLocal(Time atual)
 {
+    if(!msgsCentralLocal)
+        tempoLivreLocal += (atual.medida - horaAtualizadaLocal.medida);
     msgsCentralLocalPonderada += msgsCentralLocal * (atual.medida - horaAtualizadaLocal.medida);
     msgsCentralLocal++;
     if(msgsCentralLocal > msgsCentralLocalMax)
@@ -78,6 +95,8 @@ void Estatisticas::inserirMensagemCentralLocal(Time atual)
 
 void Estatisticas::retirarMensagemCentralLocal(Time atual)
 {
+    if(!msgsCentralLocal)
+        tempoLivreLocal += (atual.medida - horaAtualizadaLocal.medida);
     msgsCentralLocalPonderada += msgsCentralLocal * (atual.medida - horaAtualizadaLocal.medida);
     msgsCentralLocal--;
     horaAtualizadaLocal = atual;
@@ -85,8 +104,9 @@ void Estatisticas::retirarMensagemCentralLocal(Time atual)
 
 void Estatisticas::inserirMensagemCentralRemota(Time atual)
 {
+    if(!msgsCentralRemota)
+        tempoLivreRemoto += (atual.medida - horaAtualizadaRemota.medida);
     cout << "Entrada: mensagem ponderada remota esta em " << msgsCentralRemotaPonderada << endl;
-cout << "Estado : " << msgsCentralRemota << endl;
     msgsCentralRemotaPonderada += msgsCentralRemota * (atual.medida - horaAtualizadaRemota.medida);
     msgsCentralRemota++;
     if(msgsCentralRemota > msgsCentralRemotaMax)
@@ -96,8 +116,9 @@ cout << "Estado : " << msgsCentralRemota << endl;
 
 void Estatisticas::retirarMensagemCentralRemota(Time atual)
 {
+    if(!msgsCentralRemota)
+        tempoLivreRemoto += (atual.medida - horaAtualizadaRemota.medida);
     cout << "Saida: mensagem ponderada remota esta em " << msgsCentralRemotaPonderada << endl;
-    cout << "Estado : " << msgsCentralRemota << endl;
     msgsCentralRemotaPonderada += msgsCentralRemota * (atual.medida - horaAtualizadaRemota.medida);
     msgsCentralRemota--;
     horaAtualizadaRemota = atual;
@@ -115,6 +136,7 @@ int Estatisticas::maxMsgsSistema()
 
 double Estatisticas::mediaMsgsSistema()
 {
+    if(horaAtualizadaSistema.medida == 0) return 0;
     return (double)msgsSistemaPonderada/horaAtualizadaSistema.medida;
 }
 
@@ -130,6 +152,7 @@ int Estatisticas::maxMsgsCLocal()
 
 double Estatisticas::mediaMsgsCLocal()
 {
+    if(horaAtualizadaLocal.medida == 0) return 0;
     return (double)msgsCentralLocalPonderada/horaAtualizadaLocal.medida;
 }
 
@@ -145,6 +168,7 @@ int Estatisticas::maxMsgsCRemota()
 
 double Estatisticas::mediaMsgsCRemota()
 {
+    if(horaAtualizadaRemota.medida == 0) return 0;
     return (double)msgsCentralRemotaPonderada/horaAtualizadaRemota.medida;
 }
 
@@ -189,6 +213,12 @@ void Estatisticas::inserirMensagem(Mensagem msg)
         }
     }
     msgsTotais++;
+    double tempoNoSistema = msg.time().medida - msg.begin_time().medida;
+    if(tempoNoSistema < tempoMinimoNoSistema)
+        tempoMinimoNoSistema = tempoNoSistema;
+    if(tempoNoSistema > tempoMaximoNoSistema)
+        tempoMaximoNoSistema = tempoNoSistema;
+    somatorioTempoNoSistema += tempoNoSistema;
 }
 
 string Estatisticas::toString()
@@ -205,19 +235,29 @@ string Estatisticas::toString()
     ss << "------------------------------------------------------------------\n";
     ss << "Nr minimo de mensagens no sistema : \t" << minMsgsSistema() << "\n";
     ss << "Nr maximo de mensagens no sistema : \t" << maxMsgsSistema() << "\n";
-    ss << "Media de mensagens no sistema : \t\t" << mediaMsgsSistema() << "\n\n";
+    ss << "Media de mensagens no sistema : \t\t" << mediaMsgsSistema() << "\n";
+    ss << "Taxa de ocupacao do sistema : \t\t" << 1-(tempoLivreSistema/horaAtualizadaSistema.medida) << "\n\n";
+
 
     ss << "Informacoes de quantidade de mensagens na CENTRAL LOCAL durante a execucao\n";
     ss << "------------------------------------------------------------------\n";
     ss << "Nr minimo de mensagens na central : \t" << minMsgsCLocal() << "\n";
     ss << "Nr maximo de mensagens na central : \t" << maxMsgsCLocal() << "\n";
-    ss << "Media de mensagens na central : \t\t" << mediaMsgsCLocal() << "\n\n";
+    ss << "Media de mensagens na central : \t\t" << mediaMsgsCLocal() << "\n";
+    ss << "Taxa de ocupacao da central : \t\t" << 1-(tempoLivreLocal/horaAtualizadaLocal.medida) << "\n\n";
 
     ss << "Informacoes de quantidade de mensagens na CENTRAL REMOTA durante a execucao\n";
     ss << "------------------------------------------------------------------\n";
     ss << "Nr minimo de mensagens na central : \t" << minMsgsCRemota() << "\n";
     ss << "Nr maximo de mensagens na central : \t" << maxMsgsCRemota() << "\n";
-    ss << "Media de mensagens na central : \t\t" << mediaMsgsCRemota() << "\n\n";
+    ss << "Media de mensagens na central : \t\t" << mediaMsgsCRemota() << "\n";
+    ss << "Taxa de ocupacao da central : \t\t" << 1-(tempoLivreRemoto/horaAtualizadaRemota.medida) << "\n\n";
+
+    ss << "Informacoes temporal das mensagens\n";
+    ss << "------------------------------------------------------------------\n";
+    ss << "Tempo minimo de uma mensagem no sistema : \t" << tempoMinimoNoSistema << "\n";
+    ss << "Tempo maximo de uma mensagem no sistema : \t" << tempoMaximoNoSistema << "\n";
+    ss << "Media de tempo das mensagens no sistema : \t" << ((double)somatorioTempoNoSistema)/msgsTotais<< "\n\n";
 
     return ss.str();
 }

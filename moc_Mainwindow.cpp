@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Mainwindow.h'
 **
-** Created: Thu Nov 22 19:03:10 2012
+** Created: Thu Nov 22 22:01:55 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -43,6 +43,10 @@ static const uint qt_meta_data_MainWindow[] = {
      357,  233,   11,   11, 0x08,
      398,  233,   11,   11, 0x08,
      438,  233,   11,   11, 0x08,
+     479,  233,   11,   11, 0x08,
+     520,  233,   11,   11, 0x08,
+     562,  233,   11,   11, 0x08,
+     604,  233,   11,   11, 0x08,
 
        0        // eod
 };
@@ -60,6 +64,10 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "on_edit_serv_remoto_textChanged(QString)\0"
     "on_edit_suc_remoto_textChanged(QString)\0"
     "on_edit_frac_remoto_textChanged(QString)\0"
+    "on_edit_suc_local_2_textChanged(QString)\0"
+    "on_edit_frac_local_2_textChanged(QString)\0"
+    "on_edit_suc_remoto_2_textChanged(QString)\0"
+    "on_edit_frac_remoto_2_textChanged(QString)\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -103,9 +111,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 9: on_edit_serv_remoto_textChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 10: on_edit_suc_remoto_textChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 11: on_edit_frac_remoto_textChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 12: on_edit_suc_local_2_textChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 13: on_edit_frac_local_2_textChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 14: on_edit_suc_remoto_2_textChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 15: on_edit_frac_remoto_2_textChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 12;
+        _id -= 16;
     }
     return _id;
 }

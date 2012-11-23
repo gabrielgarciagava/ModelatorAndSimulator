@@ -39,14 +39,12 @@ double Distribuicao::normal(double media, double desvio){
         if(flag){
             while((r1 = (double)(rand()%10000)/10000) == 0);
             r2 = ((double) rand())/RAND_MAX;
-            cout << "log de " << r1 << "eh igual a " << log(r1) << endl;
             z = sqrt(-2*log(r1))*cos(2*M_PI*r2);
         } else {
             z = sqrt(-2*log(r1))*sin(2*M_PI*r2);
         }
         value = media + desvio*z;
         flag = !flag;
-        cout << " O value deu " << value << endl;
     } while(value < 0);
 
     return value;
@@ -59,8 +57,6 @@ double Distribuicao::triang(double a, double b, double c){
         x = a + sqrt(r*(b-a)*(c-a));
     else
         x = c - sqrt((1-r)*(c-b)*(c-a));
-
-    cout << "A triangular ta dandoooo " << x << endl;
 
     return x;
 }
